@@ -6,8 +6,6 @@
 
 Most founders avoid market research because it's painful to learn your idea already exists. GrillRoom makes that reckoning fast and unavoidable — better to be torn apart here than across a real boardroom table.
 
-🔗 **[grillroom.rishabai.me](https://grillroom.rishabai.me)**
-
 ---
 
 ## How it works
