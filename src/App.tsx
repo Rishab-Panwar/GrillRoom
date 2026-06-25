@@ -6,7 +6,7 @@ import { SourcesPanel } from './components/SourcesPanel';
 import { useAppConversation } from './hooks/useAppConversation';
 import type { Turn } from './types';
 
-function downloadReport(turns: Turn[]) {
+function downloadReport(turns: Turn[], companyName: string) {
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
   const W = 210;
   const margin = 20;
@@ -29,12 +29,12 @@ function downloadReport(turns: Turn[]) {
   doc.setFont('courier', 'normal');
   doc.setFontSize(7);
   doc.setTextColor(120, 120, 120);
-  doc.text('GRILLROOM', margin, 11);
+  doc.text('GRILLROOM · CASE FILE', margin, 11);
 
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(14);
   doc.setTextColor(220, 220, 220);
-  doc.text('CASE FILE', margin, 21);
+  doc.text((companyName || 'CASE FILE').toUpperCase(), margin, 21);
 
   const date = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase();
   doc.setFont('courier', 'normal');
@@ -158,6 +158,8 @@ export default function App() {
   const [panelCollapsed, setPanelCollapsed] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
   const [entered, setEntered] = useState(false);
+  const [companyName, setCompanyName] = useState('');
+  const [showNamePrompt, setShowNamePrompt] = useState(true);
 
   const handleEnter = async () => {
     if (appState !== 'idle' || connecting) return;
@@ -181,13 +183,17 @@ export default function App() {
 
   return (
     <div
-      className="flex h-screen w-full overflow-hidden transition-colors duration-1000"
+      className="relative flex h-screen w-full overflow-hidden transition-colors duration-1000"
       style={{
-        backgroundColor: appState === "roasting" ? "hsl(0, 15%, 4%)" : "hsl(0, 0%, 3.1%)",
+        backgroundColor: appState === "roasting" ? "hsl(0, 16%, 4.5%)" : "hsl(0, 12%, 4%)",
+        boxShadow: "inset 0 0 240px 50px rgba(0,0,0,0.6)",
       }}
     >
-      {/* Left panel */}
-      <div className="flex-1 flex flex-col relative min-w-0">
+      {/* Left panel — warm ember glow rises behind the door */}
+      <div
+        className="flex-1 flex flex-col relative min-w-0"
+        style={{ background: 'radial-gradient(ellipse 55% 50% at 50% 52%, hsla(18,85%,32%,0.13), transparent 72%)' }}
+      >
         {/* About button */}
         <button
           onClick={() => setShowHelp((v) => !v)}
@@ -223,7 +229,19 @@ export default function App() {
           </div>
         )}
         {/* Center — the door, and the investor waiting behind it */}
-        <div className="flex-1 flex flex-col items-center justify-center gap-8 -mt-8">
+        <div className="flex-1 flex flex-col items-center justify-center gap-7 -mt-6">
+          {/* Headline — only on the closed-door landing */}
+          {appState === 'idle' && (
+            <div className="text-center animate-fade-in-up px-6">
+              <h1 className="font-grotesk text-3xl md:text-5xl font-bold tracking-tight text-foreground">
+                Grill<span className="text-kill-red">Room</span>
+              </h1>
+              <p className="mt-3 text-[11px] md:text-xs uppercase tracking-[0.35em] text-muted-foreground/80 font-mono">
+                Face the panel before you face investors
+              </p>
+            </div>
+          )}
+
           {/* Stage: the boardroom panel waits; the door swings open to reveal the room */}
           <div className="relative w-[560px] max-w-[80vw] aspect-[4/3]" style={{ perspective: 1800 }}>
             <div className="absolute inset-0 overflow-hidden border border-[hsl(0,0%,9%)] bg-black">
@@ -257,7 +275,7 @@ export default function App() {
               </span>
             ) : showDownload ? (
               <button
-                onClick={() => downloadReport(turns)}
+                onClick={() => downloadReport(turns, companyName)}
                 className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground/80 font-mono hover:text-foreground transition-colors duration-200"
               >
                 Download Case File
@@ -286,6 +304,44 @@ export default function App() {
 
       {/* Right panel */}
       <SourcesPanel turns={turns} collapsed={panelCollapsed} onCollapsedChange={setPanelCollapsed} />
+
+      {/* Company-name prompt — shown on open, name flows into the Case File */}
+      {showNamePrompt && (
+        <div className="absolute inset-0 z-[60] flex items-center justify-center bg-black/75 backdrop-blur-sm animate-fade-in-up px-6">
+          <div className="w-[360px] max-w-full border border-border bg-[hsl(0,0%,5%)] p-7 shadow-2xl">
+            <p className="text-[10px] uppercase tracking-[0.3em] text-kill-red/80 font-mono mb-3">Before you step in</p>
+            <h2 className="font-grotesk text-xl font-semibold text-foreground mb-5">What's your company called?</h2>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                setCompanyName((v) => v.trim());
+                setShowNamePrompt(false);
+              }}
+            >
+              <input
+                autoFocus
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
+                placeholder="e.g. Acme AI"
+                maxLength={40}
+                className="w-full bg-transparent border border-border px-3 py-2.5 text-sm text-foreground font-mono placeholder:text-muted-foreground/40 focus:outline-none focus:border-muted-foreground mb-5"
+              />
+              <div className="flex justify-end">
+                <button type="submit" className="kill-button">Continue</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Film-grain overlay — cinematic texture over the whole screen */}
+      <div
+        className="pointer-events-none absolute inset-0 z-50 opacity-[0.05] mix-blend-overlay"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+        }}
+      />
     </div>
   );
 }
