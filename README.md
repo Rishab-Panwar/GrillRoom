@@ -13,7 +13,7 @@ A voice-native AI investor panel. Speak your pitch out loud. GrillRoom searches 
 </div>
 
 ---
-<img width="1916" height="956" alt="ezgif com-animated-gif-maker (4)" src="https://github.com/user-attachments/assets/395d2475-f7d5-4d15-8811-37b66da6921f" />
+<img width="1916" height="956" alt="ezgif com-animated-gif-maker (6)" src="https://github.com/user-attachments/assets/401875cb-f4d7-4eea-8409-fe81e0646591" />
 
 
 ## How it works
