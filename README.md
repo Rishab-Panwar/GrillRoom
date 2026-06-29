@@ -1,12 +1,16 @@
+<div align="center">
+
+<img src="public/favicon.svg" width="80" height="80" alt="GrillRoom logo" />
+
 # GrillRoom
 
-> Face the panel before you face investors.
+**Face the panel before you face investors.**
 
-**GrillRoom** is a voice-native, adversarial AI panel that grills your startup idea the way investors actually will. Step through the door, pitch out loud, and a panel of investors interrogates you — pulling live evidence on real competitors, recent funding rounds, and startups that already died doing exactly what you're describing, then throwing it back at you in real time.
+A voice-native AI investor panel. Speak your pitch out loud — GrillRoom searches the live web for real competitors, recent funding rounds, and startups that already died doing exactly what you're describing, then throws it back at you in real time. Better to be torn apart here than across a real boardroom table.
 
-Most founders avoid market research because it's painful to learn your idea already exists. GrillRoom makes that reckoning fast and unavoidable — better to be torn apart here than across a real boardroom table.
+[![Voice ElevenLabs](https://img.shields.io/badge/Voice-ElevenLabs-orange?style=flat-square)](https://elevenlabs.io) [![Search Firecrawl](https://img.shields.io/badge/Search-Firecrawl-green?style=flat-square)](https://firecrawl.dev) [![Frontend React+TS](https://img.shields.io/badge/Frontend-React+TS-blue?style=flat-square)](https://react.dev) [![Hosting Vercel](https://img.shields.io/badge/Hosting-Vercel-black?style=flat-square)](https://vercel.com) [![Live grillroom.rishabai.me](https://img.shields.io/badge/Live-grillroom.rishabai.me-red?style=flat-square)](https://grillroom.rishabai.me)
 
-🔗 **[grillroom.rishabai.me](https://grillroom.rishabai.me)**
+</div>
 
 ---
 
